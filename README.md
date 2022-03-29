@@ -1,1 +1,1 @@
-# rickandmorty_searcher
+# Rick & Morty Searcher
