@@ -15,7 +15,6 @@ import { BackendService } from '@core/interceptors/queue/backend.interceptor';
   providedIn: 'root',
 })
 export class SearchService {
-  public stopRequestQueue: boolean = false;
 
   private apiUrl = environment.apiUrl;
 
@@ -71,9 +70,6 @@ export class SearchService {
   processResults(results: Observable<any>) {
     return results.pipe(
       expand((data: any) => {
-        if(this.stopRequestQueue){
-          return EMPTY;
-        }
 
         return data['info'].next
           ? this.getDataFromApi(data['info'].next).pipe(delay(1000))

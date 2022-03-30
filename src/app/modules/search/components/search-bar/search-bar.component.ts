@@ -65,7 +65,6 @@ export class SearchBarComponent implements OnInit, OnDestroy {
           alert(error.message);
         },
         complete: () => {
-          this._searchService.stopRequestQueue = false;
           this.loading = false;
           this.countSearches = 0;
         }
@@ -74,7 +73,6 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   cancelQueue(): void {
-    this._searchService.stopRequestQueue = true;
     this._searchService.processResults(EMPTY);
     this.countSearches = 0;
   }
