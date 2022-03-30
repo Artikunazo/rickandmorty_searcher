@@ -16,6 +16,8 @@ import { BackendService } from '@core/interceptors/queue/backend.interceptor';
 })
 export class SearchService {
 
+  public stopRequestsQueue: boolean = false;
+
   private apiUrl = environment.apiUrl;
 
   constructor(private _connectorService: ConnectorService) {}
@@ -70,16 +72,14 @@ export class SearchService {
   processResults(results: Observable<any>) {
     return results.pipe(
       expand((data: any) => {
-        
-        if (data['info'].next) {
-          this.getDataFromApi(data['info'].next).pipe(delay(1000));
+
+        if(this.stopRequestsQueue){
+          return EMPTY;
         }
 
-        return EMPTY;
-
-        // return data['info'].next
-        //   ? this.getDataFromApi(data['info'].next).pipe(delay(1000))
-        //   : EMPTY;
+        return data['info'].next
+          ? this.getDataFromApi(data['info'].next).pipe(delay(1000))
+          : EMPTY;
       }),
       scan((accumulator: any, data: any) => {
         return [...accumulator, ...data.results];
