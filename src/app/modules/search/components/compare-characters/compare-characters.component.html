@@ -1,0 +1,44 @@
+<div class="row pb-5">
+  <div class="col text-center">
+    <h3>Comparativa</h3>
+  </div>
+</div>
+<div class="row">
+  <div
+    class="col-xs-12 col-sm-6 col-md-4 col-lg-4 text-center pb-4"
+    *ngFor="let character of characters"
+  >
+    <h5>
+      {{ character.name }}
+    </h5>
+    <div class="character__details">
+      <p>Género: {{ character.gender }}</p>
+      <p>Ubicación: {{ character.location.name }}</p>
+      <p>Especie: {{ character.species }}</p>
+      <p>Estado: {{ character.status }}</p>
+    </div>
+  </div>
+  <div class="characters__common-episodes">
+    <div class="row">
+      <div class="col text-center">
+        <h5>Episodios compartidos:</h5>
+
+        <div class="text-center" *ngIf="loading">
+          <spinner></spinner>
+        </div>
+
+        <ul class="common-episodes__list">
+          <li class="common-episodes__item" *ngFor="let episode of episodes">
+            <div class="row">
+              <div class="col-12">
+                <p>
+                  {{ episode.name }}
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

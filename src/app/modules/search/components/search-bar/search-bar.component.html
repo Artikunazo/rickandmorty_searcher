@@ -1,0 +1,58 @@
+<form [formGroup]="formSearch" (ngSubmit)="search(formSearch)">
+  <div class="input-group mb-3">
+    <div class="input-group-append">
+      <select
+        name="typeSearch"
+        formControlName="type"
+        class="form-select"
+        [ngClass]="{
+          'is-invalid':
+            !formSearch.controls['type'].valid &&
+            formSearch.controls['type'].touched
+        }"
+        required
+      >
+        <option value="">Tipo de búsqueda</option>
+        <ng-container *ngFor="let resource of typeSearchList">
+          <option [value]="resource">
+            {{ resource | titlecase }}
+          </option>
+        </ng-container>
+      </select>
+    </div>
+
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Nombre..."
+      aria-label="Nombre..."
+      aria-describedby="basic-addon2"
+      formControlName="name"
+      [ngClass]="{
+        'is-invalid':
+          !formSearch.controls['name'].valid &&
+          formSearch.controls['name'].touched
+      }"
+      required
+    />
+
+    <div class="input-group-append">
+      <button
+        class="btn btn-outline-danger"
+        type="button"
+        (click)="cancelQueue()"
+        *ngIf="loading"
+      >
+        <i class="fa fa-times"></i>
+      </button>
+
+      <button class="btn btn-outline-secondary" type="submit" *ngIf="!loading">
+        <i class="fa fa-search"></i>
+      </button>
+    </div>
+  </div>
+</form>
+
+<div *ngIf="loading">
+  <spinner></spinner>
+</div>

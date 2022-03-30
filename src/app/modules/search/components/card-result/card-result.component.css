@@ -1,0 +1,4 @@
+.card{
+  height: 100%;
+  transition: height .2s ease-in;
+}

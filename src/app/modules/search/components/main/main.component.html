@@ -1,0 +1,87 @@
+<section class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-center">Rick and Morty Searcher</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <search-bar
+        (results)="getResults($event)"
+        (typeSearchSelected)="getTypeSearch($event)"
+      ></search-bar>
+    </div>
+  </div>
+
+  <ng-container *ngIf="results.length; else emptyResults">
+    <div
+      class="compare__characters"
+      *ngIf="typeSearch === 'characters' && charactersToCompare.length > 1"
+    >
+      <div class="row">
+        <div class="col-12">
+          <button
+            type="button"
+            class="btn btn-primary pull-right"
+            (click)="toggleCompareContainer()"
+          >
+            <i class="fa fa-arrow-right"></i>
+            <i class="fa fa-arrow-left"></i>
+          </button>
+        </div>
+
+        <div class="col-12" *ngIf="showCompare">
+          <compare-characters
+            [characters]="charactersToCompare"
+          ></compare-characters>
+        </div>
+      </div>
+    </div>
+
+    <div class="row results-container">
+        <ng-container *ngFor="let result of results">
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+            <card-result
+              [result]="result"
+              [typeSearch]="typeSearch"
+              (compareEvent)="getCompareEvent($event)"
+            ></card-result>
+          </div>
+        </ng-container>
+    </div>
+  </ng-container>
+</section>
+
+<ng-template #emptyResults>
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-info" role="alert">
+        <strong>
+          <i class="fa fa-info-circle"></i>
+        </strong>
+        <span>
+          Para buscar por personaje, ubicación o episodio, seleccione el tipo de
+          búsqueda y escriba el nombre del mismo en el campo contiguo.
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-info" role="alert">
+        <strong>
+          <i class="fa fa-info-circle"></i>
+        </strong>
+        <span>
+          Para comparar personajes, seleccione dos o más personajes de la lista
+          (máximo 3) y haga click en el botón
+          <i class="fa fa-arrow-right"></i>
+          <i class="fa fa-arrow-left"></i>
+          .
+        </span>
+      </div>
+    </div>
+  </div>
+</ng-template>

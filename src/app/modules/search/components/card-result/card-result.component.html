@@ -1,0 +1,109 @@
+<div class="card pb-4">
+  <div [ngSwitch]="typeSearch">
+    <div *ngSwitchCase="'characters'">
+      <ng-container *ngTemplateOutlet="characterCard"></ng-container>
+    </div>
+
+    <div *ngSwitchCase="'locations'">
+      <ng-container *ngTemplateOutlet="locationCard"></ng-container>
+    </div>
+
+    <div *ngSwitchCase="'episodes'">
+      <ng-container *ngTemplateOutlet="episodeCard"></ng-container>
+    </div>
+
+    <div *ngSwitchDefault>
+      <!-- <ng-container *ngTemplateOutlet="defaultCard"></ng-container> -->
+    </div>
+  </div>
+</div>
+
+<ng-template #characterCard>
+  <img
+    [src]="result.image"
+    class="card-img-top img-fluid"
+    [alt]="result.name + ' photo'"
+  />
+  <div class="card-body">
+    <h5 class="card-title">
+      {{ result?.name }}
+    </h5>
+    <div class="card-text">
+      <p>Género: {{ result?.gender }}</p>
+      <p>Ubicación: {{ result?.location.name }}</p>
+      <p>Episodio: {{ episode?.name }}</p>
+
+      <p>
+        <label [for]="'compare' + result?.id"
+          >Comparar:
+          <input
+            type="checkbox"
+            [name]="'compare' + result?.id"
+            [formControl]="characterCompare"
+          />
+        </label>
+      </p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #locationCard>
+  <div class="card-body">
+    <h5 class="card-title">
+      {{ result?.name }}
+    </h5>
+    <div class="card-text">
+      <p>Tipo: {{ result?.type }}</p>
+      <p>Dimensión: {{ result?.dimension }}</p>
+      <p>Residentes: {{ result?.residents.length }}</p>
+      <p>Fecha de creación: {{ result?.created }}</p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #episodeCard>
+  <div class="card-body">
+    <h5 class="card-title">
+      {{ result?.name }}
+    </h5>
+    <div class="card-text">
+      <p>Fecha de emisión: {{ result?.air_date }}</p>
+      <p>Código de episodio: {{ result?.episode }}</p>
+
+      <div class="characters" *ngIf="moreInfo">
+        <p>Personajes en este episodio:</p>
+        <div *ngIf="loading">
+          <spinner></spinner>
+        </div>
+        <ul>
+          <li *ngFor="let character of characters">
+            <div class="row">
+              <div class="col-6">
+                <p>
+                  {{ character.name }}
+                </p>
+              </div>
+              <div class="col-6">
+                <img
+                  [src]="character.image"
+                  class="img-fluid"
+                  [alt]="character.name + ' photo'"
+                />
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-primary pull-right"
+        (click)="toggleMoreInfo()"
+      >
+        <span *ngIf="!moreInfo">+ </span>
+        <span *ngIf="moreInfo">- </span>
+        Info
+      </button>
+    </div>
+  </div>
+</ng-template>
