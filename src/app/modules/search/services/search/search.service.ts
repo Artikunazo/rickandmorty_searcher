@@ -70,10 +70,16 @@ export class SearchService {
   processResults(results: Observable<any>) {
     return results.pipe(
       expand((data: any) => {
+        
+        if (data['info'].next) {
+          this.getDataFromApi(data['info'].next).pipe(delay(1000));
+        }
 
-        return data['info'].next
-          ? this.getDataFromApi(data['info'].next).pipe(delay(1000))
-          : EMPTY;
+        return EMPTY;
+
+        // return data['info'].next
+        //   ? this.getDataFromApi(data['info'].next).pipe(delay(1000))
+        //   : EMPTY;
       }),
       scan((accumulator: any, data: any) => {
         return [...accumulator, ...data.results];
