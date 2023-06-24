@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, Validators, UntypedFormGroup } from '@angular/forms';
 
 import { SearchService } from '../../services/search/search.service';
 
@@ -17,14 +17,14 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   @Output() typeSearchSelected = new EventEmitter();
 
   public typeSearchList: string[] = [];
-  public formSearch: FormGroup;
+  public formSearch: UntypedFormGroup;
   public loading: boolean = false;
   public countSearches: number = 0;
 
   private _subscriptions = new Subscription();
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _searchService: SearchService
   ) {
     this.formSearch = this._formBuilder.group({
@@ -45,7 +45,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     );
   }
 
-  search(form: FormGroup): void {
+  search(form: UntypedFormGroup): void {
 
     this.loading = true;
     this.countSearches++;

@@ -6,7 +6,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { IEpisode } from '@modules/search/models/episode.model';
 import { SearchService } from '@modules/search/services/search/search.service';
 import { Observable, Subscription } from 'rxjs';
@@ -27,14 +27,14 @@ export class CardResultComponent implements OnInit, OnDestroy {
   public episode!: IEpisode;
   public moreInfo: boolean = false;
   public characters: ICharacter[] = [];
-  public characterCompare!: FormControl;
+  public characterCompare!: UntypedFormControl;
   public loading: boolean = false;
 
   private _subscriptions = new Subscription();
 
   constructor(
     private _searchService: SearchService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: UntypedFormBuilder
   ) {
     // Init checkbox for compare characters
     this.characterCompare = this._formBuilder.control(false);
