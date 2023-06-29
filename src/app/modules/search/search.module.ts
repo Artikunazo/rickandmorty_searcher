@@ -8,8 +8,7 @@ import { SearchRoutingModule } from './search-routing.module';
 import { CardResultComponent } from './components/card-result/card-result.component';
 import { ReactiveFormsModule  } from '@angular/forms';
 import { CompareCharactersComponent } from './components/compare-characters/compare-characters.component';
-import { SharedModule } from '@shared/shared.module'
-
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [
