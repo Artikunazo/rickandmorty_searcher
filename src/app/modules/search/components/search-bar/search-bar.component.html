@@ -1,7 +1,7 @@
 <div class="row">
-  <div class="col-12 justify-content-center">
+  <div class="col-12 col-sm-12 col-xs-12 justify-content-center">
     <form [formGroup]="formSearch" (ngSubmit)="search(formSearch)" class="row">
-      <mat-form-field class="col-4">
+      <mat-form-field class="col-4 xs">
         <mat-select
           name="typeSearch"
           formControlName="type"
@@ -22,7 +22,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="col-6">
+      <mat-form-field class="col-6 xs">
         <input
           matInput
           type="text"
@@ -39,7 +39,7 @@
         />
       </mat-form-field>
 
-      <div class="col-2 d-flex-center">
+      <div class="col-2 xs d-flex-center">
         <button
         *ngIf="loading"
         mat-raised-button
