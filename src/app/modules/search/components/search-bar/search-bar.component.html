@@ -1,58 +1,67 @@
-<form [formGroup]="formSearch" (ngSubmit)="search(formSearch)">
-  <div class="input-group mb-3">
-    <div class="input-group-append">
-      <select
-        name="typeSearch"
-        formControlName="type"
-        class="form-select"
-        [ngClass]="{
-          'is-invalid':
-            !formSearch.controls['type'].valid &&
-            formSearch.controls['type'].touched
-        }"
-        required
-      >
-        <option value="">Tipo de búsqueda</option>
-        <ng-container *ngFor="let resource of typeSearchList">
-          <option [value]="resource">
-            {{ resource | titlecase }}
-          </option>
-        </ng-container>
-      </select>
-    </div>
+<div class="row">
+  <div class="col-12 justify-content-center">
+    <form [formGroup]="formSearch" (ngSubmit)="search(formSearch)" class="row">
+      <mat-form-field class="col-4">
+        <mat-select
+          name="typeSearch"
+          formControlName="type"
+          class="form-select"
+          [ngClass]="{
+            'is-invalid':
+              !formSearch.controls['type'].valid &&
+              formSearch.controls['type'].touched
+          }"
+          required
+        >
+          <mat-option value="">Type search</mat-option>
+          <ng-container *ngFor="let resource of typeSearchList">
+            <mat-option [value]="resource">
+              {{ resource | titlecase }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
 
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Nombre..."
-      aria-label="Nombre..."
-      aria-describedby="basic-addon2"
-      formControlName="name"
-      [ngClass]="{
-        'is-invalid':
-          !formSearch.controls['name'].valid &&
-          formSearch.controls['name'].touched
-      }"
-      required
-    />
+      <mat-form-field class="col-6">
+        <input
+          matInput
+          type="text"
+          placeholder="Name"
+          aria-label="Name"
+          aria-describedby="basic-addon2"
+          formControlName="name"
+          [ngClass]="{
+            'is-invalid':
+              !formSearch.controls['name'].valid &&
+              formSearch.controls['name'].touched
+          }"
+          required
+        />
+      </mat-form-field>
 
-    <div class="input-group-append">
-      <button
-        class="btn btn-outline-danger"
+      <div class="col-2 d-flex-center">
+        <button
+        *ngIf="loading"
+        mat-raised-button
         type="button"
         (click)="cancelQueue()"
-        *ngIf="loading"
       >
-        <i class="fa fa-times"></i>
+        <mat-icon fontIcon="times"></mat-icon>
       </button>
 
-      <button class="btn btn-outline-secondary" type="submit" *ngIf="!loading">
-        <i class="fa fa-search"></i>
+      <button
+        *ngIf="!loading"
+        mat-raised-button
+        color="primary"
+        type="submit"
+      >
+      <mat-icon fontIcon="search"></mat-icon>
       </button>
+      </div>
+    </form>
+
+    <div *ngIf="loading">
+      <spinner></spinner>
     </div>
   </div>
-</form>
-
-<div *ngIf="loading">
-  <spinner></spinner>
 </div>

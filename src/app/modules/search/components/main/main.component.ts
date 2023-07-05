@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-
 import { TResultApi } from '@modules/search/models/result-api.type';
 import { ICharacter } from '@modules/search/models/character.model';
 

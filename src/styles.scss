@@ -1,7 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Bootstrap SCSS file. */
-@import '~font-awesome/css/font-awesome.min.css';
+@import "~node_modules/gary-css/gary.min.css";
+
+*, ::after, ::before {
+    /* box-sizing: border-box; */
+}
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif !important; }
+
+.container-liquid {
+    padding: 10px;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.d-flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-center { 
+    align-items: center;
+}
