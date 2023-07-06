@@ -16,21 +16,27 @@
 
   <ng-container *ngIf="results.length; else emptyResults">
     <div
-      class="compare__characters"
       *ngIf="typeSearch === 'characters' && charactersToCompare.length > 1"
+      infinite-scroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="1000"
+      (scrolled)="onScroll()"
+      class="compare__characters"
     >
       <div class="row">
         <div class="col-12">
-          <button
-            mat-button
-            color="primary"
-            type="button"
-            class="btn btn-primary pull-right"
-            (click)="toggleCompareContainer()"
-          >
-            <i class="fa fa-arrow-right"></i>
-            <i class="fa fa-arrow-left"></i>
-          </button>
+          <mat-form-field>
+            <button
+              mat-button
+              color="primary"
+              type="button"
+              class="btn btn-primary pull-right"
+              (click)="toggleCompareContainer()"
+            >
+              <mat-icon fontIcon="arrow-right"></mat-icon>
+              <mat-icon fontIcon="arrow-left"></mat-icon>
+            </button>
+          </mat-form-field>
         </div>
 
         <div class="col-12" *ngIf="showCompare">
@@ -42,15 +48,15 @@
     </div>
 
     <div class="row results-container">
-        <ng-container *ngFor="let result of results">
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <card-result
-              [result]="result"
-              [typeSearch]="typeSearch"
-              (compareEvent)="getCompareEvent($event)"
-            ></card-result>
-          </div>
-        </ng-container>
+      <ng-container *ngFor="let result of results">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+          <card-result
+            [result]="result"
+            [typeSearch]="typeSearch"
+            (compareEvent)="getCompareEvent($event)"
+          ></card-result>
+        </div>
+      </ng-container>
     </div>
   </ng-container>
 </section>
@@ -79,8 +85,8 @@
         <span>
           Para comparar personajes, seleccione dos o más personajes de la lista
           (máximo 3) y haga click en el botón
-          <i class="fa fa-arrow-right"></i>
-          <i class="fa fa-arrow-left"></i>
+          <mat-icon fontIcon="arrow-right"></mat-icon>
+          <mat-icon fontIcon="arrow-left"></mat-icon>
           .
         </span>
       </div>

@@ -9,6 +9,7 @@ import { CardResultComponent } from './components/card-result/card-result.compon
 import { ReactiveFormsModule  } from '@angular/forms';
 import { CompareCharactersComponent } from './components/compare-characters/compare-characters.component';
 import { SharedModule } from '@shared/shared.module';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SharedModule } from '@shared/shared.module';
     HttpClientModule,
     ReactiveFormsModule,
     SharedModule,
-    MaterialModule
+    MaterialModule,
+    InfiniteScrollModule
   ]
 })
 export class SearchModule { }
