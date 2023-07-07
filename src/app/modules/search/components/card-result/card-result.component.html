@@ -19,7 +19,33 @@
 </div>
 
 <ng-template #characterCard>
-  <img
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ result?.name }}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image [src]="result?.image" [alt]="'Photo of ' + result?.name">
+    <mat-card-content>
+      <p>Gender: {{ result?.gender }}</p>
+      <p>Location: {{ result?.location.name }}</p>
+      <!-- <p>Episode: {{ episode.name }}</p> -->
+
+      <p>
+        <label [for]="'compare' + result.id"
+          >Comparar:
+          <!-- <input
+            type="checkbox"
+            [name]="'compare' + result?.id"
+            [formControl]="characterCompare"
+          /> -->
+        </label>
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>Compare</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- <img
     [src]="result.image"
     class="card-img-top img-fluid"
     [alt]="result.name + ' photo'"
@@ -44,7 +70,7 @@
         </label>
       </p>
     </div>
-  </div>
+  </div> -->
 </ng-template>
 
 <ng-template #locationCard>

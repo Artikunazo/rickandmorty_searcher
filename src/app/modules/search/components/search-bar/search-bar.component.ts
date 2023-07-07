@@ -3,7 +3,6 @@ import { UntypedFormBuilder, Validators, UntypedFormGroup } from '@angular/forms
 
 import { SearchService } from '../../services/search/search.service';
 
-import { TResultApi } from '@modules/search/models/result-api.type';
 import { Subscription, EMPTY } from 'rxjs';
 
 @Component({
@@ -46,41 +45,11 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   search(form: UntypedFormGroup): void {
+    this._searchService.setSessionStorage('name', form.value.name);
+    this._searchService.setSessionStorage('type', form.value.type);
+    this._searchService.search();
 
-    this.loading = true;
-    this.countSearches++;
-    if (this.countSearches > 1) {
-      this.cancelQueue();
-      return;
-    }
-
-    this._subscriptions.add(
-      this.sendRequest(form.value.name, form.value.type).subscribe({
-        next: (results: TResultApi) => {
-          this.results.emit(results);
-          this.typeSearchSelected.emit(this.formSearch.value.type);
-
-        },
-        error: (error: any) => {
-          alert(error.message);
-        },
-        complete: () => {
-          this._searchService.stopRequestsQueue = false;
-          this.loading = false;
-          this.countSearches = 0;
-        }
-      })
-    );
-  }
-
-  cancelQueue(): void {
-    this._searchService.stopRequestsQueue = true;
-    this._searchService.processResults(EMPTY);
-    this.countSearches = 0;
-  }
-
-  sendRequest(name: string, type: string){
-    return this._searchService.search(name, type);
+    this.typeSearchSelected.emit(this._searchService.getSessionStorage('type'));
   }
 
   ngOnInit(): void {

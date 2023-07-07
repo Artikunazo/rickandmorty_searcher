@@ -40,15 +40,6 @@
       </mat-form-field>
 
       <div class="col-2 xs d-flex-center">
-        <button
-        *ngIf="loading"
-        mat-raised-button
-        type="button"
-        (click)="cancelQueue()"
-      >
-        <mat-icon fontIcon="times"></mat-icon>
-      </button>
-
       <button
         *ngIf="!loading"
         mat-raised-button
