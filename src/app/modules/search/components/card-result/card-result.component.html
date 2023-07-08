@@ -26,73 +26,35 @@
     <img mat-card-image [src]="result?.image" [alt]="'Photo of ' + result?.name">
     <mat-card-content>
       <p>Gender: {{ result?.gender }}</p>
-      <p>Location: {{ result?.location.name }}</p>
+      <p>Location: {{ result?.location?.name }}</p>
       <!-- <p>Episode: {{ episode.name }}</p> -->
-
-      <p>
-        <label [for]="'compare' + result.id"
-          >Comparar:
-          <!-- <input
-            type="checkbox"
-            [name]="'compare' + result?.id"
-            [formControl]="characterCompare"
-          /> -->
-        </label>
-      </p>
     </mat-card-content>
     <mat-card-actions>
       <button mat-button>Compare</button>
     </mat-card-actions>
   </mat-card>
-
-  <!-- <img
-    [src]="result.image"
-    class="card-img-top img-fluid"
-    [alt]="result.name + ' photo'"
-  />
-  <div class="card-body">
-    <h5 class="card-title">
-      {{ result?.name }}
-    </h5>
-    <div class="card-text">
-      <p>Género: {{ result?.gender }}</p>
-      <p>Ubicación: {{ result?.location.name }}</p>
-      <p>Episodio: {{ episode.name }}</p>
-
-      <p>
-        <label [for]="'compare' + result?.id"
-          >Comparar:
-          <input
-            type="checkbox"
-            [name]="'compare' + result?.id"
-            [formControl]="characterCompare"
-          />
-        </label>
-      </p>
-    </div>
-  </div> -->
 </ng-template>
 
 <ng-template #locationCard>
-  <div class="card-body">
-    <h5 class="card-title">
-      {{ result?.name }}
-    </h5>
-    <div class="card-text">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ result?.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
       <p>Tipo: {{ result?.type }}</p>
       <p>Dimensión: {{ result?.dimension }}</p>
       <p>Residentes: {{ result?.residents.length }}</p>
       <p>Fecha de creación: {{ result?.created }}</p>
-    </div>
-  </div>
+    </mat-card-content>
+  </mat-card>
 </ng-template>
 
 <ng-template #episodeCard>
-  <div class="card-body">
-    <h5 class="card-title">
-      {{ result?.name }}
-    </h5>
-    <div class="card-text">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ result?.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
       <p>Fecha de emisión: {{ result?.air_date }}</p>
       <p>Código de episodio: {{ result?.episode }}</p>
 
@@ -130,6 +92,6 @@
         <span *ngIf="moreInfo">- </span>
         Info
       </button>
-    </div>
-  </div>
+    </mat-card-content>
+  </mat-card>
 </ng-template>

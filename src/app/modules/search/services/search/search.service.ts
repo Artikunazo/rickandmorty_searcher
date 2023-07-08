@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core';
 import { ConnectorService } from '@core/services/connector/connector.service';
 import { environment } from '@environments/environment';
 import { TResultApi } from '@modules/search/models/result-api.type';
-import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { EMPTY, Observable, Subject, of } from 'rxjs';
+import { delay, expand, map, scan } from 'rxjs/operators';
+import { ApiRickAndMortyResponse } from '@modules/search/models/api.model';
+import { IEpisode } from '@modules/search/models/episode.model';
+import { ICharacter } from '@modules/search/models/character.model';
 
 enum typeSearch {
   CHARACTERS = 'characters',
@@ -18,6 +21,7 @@ export class SearchService {
   public results$ = new Subject<any>();
 
   private apiUrl = environment.apiUrl;
+  private finalResults: Array<TResultApi> = []; // @Todo: Add type
 
   constructor(private _connectorService: ConnectorService) {}
 
@@ -49,31 +53,39 @@ export class SearchService {
     let url = this.apiUrl;
 
     if (type === typeSearch.CHARACTERS) url += 'character/';
-    if (type === typeSearch.EPISODES) url += 'episodes/';
-    if (type === typeSearch.LOCATIONS) url += 'locations/';
+    if (type === typeSearch.EPISODES) url += 'episode/';
+    if (type === typeSearch.LOCATIONS) url += 'location/';
 
     this.getDataFromApi(url).subscribe({
-      next: (results) => this.results$.next(results)
+      next: (response: ApiRickAndMortyResponse) => {
+        this.processResults({ response, name });
+        this.results$.next(this.finalResults);
+      },
     });
   }
 
-  // processResults(results: Observable<any>) {
-  //   return results.pipe(
-  //     expand((data: any) => {
+  processResults(params: { response: ApiRickAndMortyResponse; name: string }) {
+    const { response, name } = params;
+    const resultsListFiltered = response.results.filter((item: any ) =>
+      item.name.toLowerCase().includes(name.toLocaleLowerCase())
+    );
 
-  //       if(this.stopRequestsQueue){
-  //         return EMPTY;
-  //       }
+    resultsListFiltered.map(item => this.finalResults.push(item));
+  
+    if(this.finalResults.length >= 30) {
+      return;
+    }
 
-  //       return data['info'].next
-  //         ? this.getDataFromApi(data['info'].next).pipe(delay(1000))
-  //         : EMPTY;
-  //     }),
-  //     scan((accumulator: any, data: any) => {
-  //       return [...accumulator, ...data.results];
-  //     }, []),
-  //   );
-  // }
+    if(!response.info.next) {
+      return;
+    }
+
+    this.getDataFromApi(response.info.next).subscribe({
+      next: (response: ApiRickAndMortyResponse) => {
+        this.processResults({ response, name });
+      },
+    });
+  }
 
   getEpisodeCharacter(episodes: string[]): string {
     return episodes[Math.floor(Math.random() * episodes.length)];
