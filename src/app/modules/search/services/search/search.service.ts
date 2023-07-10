@@ -46,6 +46,9 @@ export class SearchService {
   search() {
     const name = this.getSessionStorage('name');
     const type = this.getSessionStorage('type');
+
+    if(name && type) this.cleanResults();
+
     this.searchInApi(name, type);
   }
 
@@ -72,7 +75,7 @@ export class SearchService {
 
     resultsListFiltered.map(item => this.finalResults.push(item));
   
-    if(this.finalResults.length >= 30) {
+    if(this.finalResults.length >= 10) {
       return;
     }
 
@@ -111,5 +114,10 @@ export class SearchService {
         this.results$.next(this.finalResults);
       },
     });
+  }
+
+  cleanResults() {
+    this.finalResults = [];
+    this.results$.next(this.finalResults);
   }
 }
