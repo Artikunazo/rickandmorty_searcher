@@ -3,7 +3,7 @@ import { ConnectorService } from '@core/services/connector/connector.service';
 import { environment } from '@environments/environment';
 import { TResultApi } from '@modules/search/models/result-api.type';
 import { EMPTY, Observable, Subject, of } from 'rxjs';
-import { delay, expand, map, scan } from 'rxjs/operators';
+import { delay, expand, map, scan, take } from 'rxjs/operators';
 import { ApiRickAndMortyResponse } from '@modules/search/models/api.model';
 import { IEpisode } from '@modules/search/models/episode.model';
 import { ICharacter } from '@modules/search/models/character.model';
@@ -82,6 +82,7 @@ export class SearchService {
 
     this.getDataFromApi(response.info.next).subscribe({
       next: (response: ApiRickAndMortyResponse) => {
+        this.setSessionStorage('info', JSON.stringify(response.info));
         this.processResults({ response, name });
       },
     });
@@ -97,5 +98,18 @@ export class SearchService {
 
   setSessionStorage(paramName: string, paramValue: string) {
     sessionStorage.setItem(paramName, paramValue);
+  }
+
+  searchFromScroll() {
+    const info = JSON.parse(this.getSessionStorage('info'));
+    const name = this.getSessionStorage('name');
+
+    this.getDataFromApi(info.next).pipe(take(1)).subscribe({
+      next: (response: ApiRickAndMortyResponse) => {
+        this.setSessionStorage('info', JSON.stringify(response.info));
+        this.processResults({ response, name });
+        this.results$.next(this.finalResults);
+      },
+    });
   }
 }

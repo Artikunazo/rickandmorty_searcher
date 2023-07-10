@@ -63,7 +63,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   onScroll() {
-    this._searchService.search();
+    this._searchService.searchFromScroll();
   }
 
   ngOnInit(): void {
