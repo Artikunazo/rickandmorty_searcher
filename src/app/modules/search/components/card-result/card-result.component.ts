@@ -27,7 +27,7 @@ export class CardResultComponent implements OnInit, OnDestroy {
   public episode!: IEpisode;
   public moreInfo: boolean = false;
   public characters: ICharacter[] = [];
-  public characterCompare!: UntypedFormControl;
+  public charactersToCompare: number[] = [];
   public loading: boolean = false;
 
   private _subscriptions = new Subscription();
@@ -36,40 +36,23 @@ export class CardResultComponent implements OnInit, OnDestroy {
     private _searchService: SearchService,
     private _formBuilder: UntypedFormBuilder
   ) {
-    // Init checkbox for compare characters
-    this.characterCompare = this._formBuilder.control(false);
   }
 
   ngOnInit(): void {
     // Read episodes of a character
     if (this.typeSearch === 'characters') {
       this.searchEpisodes();
-      this.checkboxListenerInit();
     }
   }
 
   private searchEpisodes(): void {
-    const episode = this._searchService.getEpisodeCharacter(
+    const episode = this._searchService.getRandomEpisodeCharacter(
       this.result.episode
     );
     this._subscriptions.add(
       this.getDataFromApi(episode).subscribe((episodeData) => {
         this.episode = episodeData as IEpisode;
         this.loading = false;
-      })
-    );
-  }
-
-  private checkboxListenerInit() {
-    // Listener compare checkbox action
-    this._subscriptions.add(
-      this.characterCompare.valueChanges.subscribe({
-        next: (value) => {
-          this.compareEvent.emit({
-            character: this.result,
-            value: value,
-          });
-        },
       })
     );
   }
@@ -92,6 +75,14 @@ export class CardResultComponent implements OnInit, OnDestroy {
   getDataFromApi(url: string): Observable<ICharacter | IEpisode | ILocation> {
     this.loading = true;
     return this._searchService.getDataFromApi(url).pipe(delay(500));
+  }
+
+  addCompare(idCharacter: number) {
+    if(this.charactersToCompare.length === 3) {
+      return;
+    }
+    
+    this.charactersToCompare.push(idCharacter);
   }
 
   ngOnDestroy(): void {

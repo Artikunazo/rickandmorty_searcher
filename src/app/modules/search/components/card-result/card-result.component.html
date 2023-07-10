@@ -27,10 +27,10 @@
     <mat-card-content>
       <p>Gender: {{ result?.gender }}</p>
       <p>Location: {{ result?.location?.name }}</p>
-      <!-- <p>Episode: {{ episode.name }}</p> -->
+      <p *ngIf="episode">Episode: {{ episode.name }}</p>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>Compare</button>
+    <mat-card-actions align="end">
+      <button mat-button (click)="addCompare(result?.id)">Compare</button>
     </mat-card-actions>
   </mat-card>
 </ng-template>

@@ -91,8 +91,8 @@ export class SearchService {
     });
   }
 
-  getEpisodeCharacter(episodes: string[]): string {
-    return episodes[Math.floor(Math.random() * episodes.length)];
+  getRandomEpisodeCharacter(episodesList: string[]): string {
+    return episodesList[Math.floor(Math.random() * episodesList.length)];
   }
 
   getSessionStorage(param: string): string {
