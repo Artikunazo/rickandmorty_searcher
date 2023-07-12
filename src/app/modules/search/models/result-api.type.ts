@@ -1,6 +1,6 @@
-import { ICharacter } from './character.model';
-import { IEpisode } from './episode.model';
-import { ILocation } from './location.model';
+import { Character } from './character.model';
+import { Episode } from './episode.model';
+import { Location } from './location.model';
 
-export type TResultApi =
-  | (keyof ICharacter | keyof IEpisode | keyof ILocation);
+export type ApiRickAndMortyResultsResponse =
+  | (keyof Character | keyof Episode | keyof Location);

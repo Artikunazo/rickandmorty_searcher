@@ -1,11 +1,11 @@
-import { ICharacter } from './character.model';
+import { Character } from './character.model';
 
-export interface ILocation {
+export interface Location {
   created: string;
   dimension: string;
   id: number;
   name: string;
-  residents: ICharacter[];
+  residents: Character[];
   type: string;
   url: string;
 }

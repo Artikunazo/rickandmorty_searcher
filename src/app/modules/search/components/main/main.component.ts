@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { TResultApi } from '@modules/search/models/result-api.type';
-import { ICharacter } from '@modules/search/models/character.model';
+import { Subscription } from 'rxjs';
+import { ApiRickAndMortyResultsResponse } from '@modules/search/models/result-api.type';
+import { Character } from '@modules/search/models/character.model';
 import { SearchService } from '../../services/search/search.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { SearchService } from '../../services/search/search.service';
 export class MainComponent implements OnInit, OnDestroy {
   public results$ = this._searchService.results$;
   public typeSearch: string = '';
-  public charactersToCompare: ICharacter[] = [];
+  public charactersToCompare: Character[] = [];
   public showCompare = false;
   public showGoToTop = false;
 
@@ -20,8 +20,8 @@ export class MainComponent implements OnInit, OnDestroy {
 
   constructor(private readonly _searchService: SearchService) {}
 
-  getTypeSearch(typeSelected: any): void {
-    this.typeSearch = typeSelected as string;
+  getTypeSearch(typeSelected: string): void {
+    this.typeSearch = typeSelected;
   }
 
   toggleCompareContainer(): void {
@@ -30,7 +30,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   getCompareEvent(): void {
     this._searchService.charactersToCompare$.subscribe({
-      next: (characters: ICharacter[]) => {
+      next: (characters: Character[]) => {
         characters.map(character => this.charactersToCompare.push(character));
       },
     });

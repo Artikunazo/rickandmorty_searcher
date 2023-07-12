@@ -1,12 +1,12 @@
-import { ICharacterLocation } from './character-location.model';
+import { CharacterLocation } from './character-location.model';
 
-export interface ICharacter {
+export interface Character {
   created: string;
   episode: string[];
   gender: 'unknown' | 'Female' | 'Male' | 'Genderless';
   id: number;
   image: string;
-  location: ICharacterLocation;
+  location: CharacterLocation;
   name: string;
   origin: string;
   species: string;

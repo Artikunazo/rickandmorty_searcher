@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ConnectorService } from '@core/services/connector/connector.service';
 import { environment } from '@environments/environment';
-import { TResultApi } from '@modules/search/models/result-api.type';
+import { ApiRickAndMortyResultsResponse } from '@modules/search/models/result-api.type';
 import { EMPTY, Observable, Subject, of, ReplaySubject } from 'rxjs';
 import { delay, expand, map, scan, take } from 'rxjs/operators';
 import { ApiRickAndMortyResponse } from '@modules/search/models/api.model';
-import { IEpisode } from '@modules/search/models/episode.model';
-import { ICharacter } from '@modules/search/models/character.model';
+import { Episode } from '@modules/search/models/episode.model';
+import { Character } from '@modules/search/models/character.model';
 
 enum typeSearch {
   CHARACTERS = 'characters',
@@ -19,17 +19,17 @@ enum typeSearch {
 })
 export class SearchService {
   public results$ = new Subject<any>();
-  public characterIdsToCompare: ICharacter[] = [];
-  public charactersToCompare$ = new ReplaySubject<ICharacter[]>;
+  public characterIdsToCompare: Character[] = [];
+  public charactersToCompare$ = new ReplaySubject<Character[]>;
 
   private apiUrl = environment.apiUrl;
-  private finalResults: Array<TResultApi> = []; // @Todo: Add type
+  private finalResults: Array<ApiRickAndMortyResultsResponse> = []; // @Todo: Add type
 
   constructor(private _connectorService: ConnectorService) {}
 
-  getAllResources(): Observable<Object> {
+  getAllResources(): Observable<string[]> {
     return this._connectorService.mGet(this.apiUrl).pipe(
-      map((data: any) => {
+      map((data: Object) => {
         return Object.entries(data).map(([key]) => {
           return key;
         });

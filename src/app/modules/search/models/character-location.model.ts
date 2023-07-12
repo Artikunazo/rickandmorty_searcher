@@ -1,4 +1,4 @@
-export interface ICharacterLocation {
+export interface CharacterLocation {
   name: string;
   url: string;
 }

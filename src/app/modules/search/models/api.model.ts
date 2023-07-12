@@ -1,4 +1,4 @@
-import { TResultApi } from './result-api.type';
+import { ApiRickAndMortyResultsResponse } from './result-api.type';
 
 export interface ApiRickAndMortyInfoResponse {
     count: number;
@@ -9,5 +9,5 @@ export interface ApiRickAndMortyInfoResponse {
 
 export interface ApiRickAndMortyResponse {
     info: ApiRickAndMortyInfoResponse;
-    results: TResultApi[]
+    results: ApiRickAndMortyResultsResponse[]
 }

@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { UntypedFormBuilder, Validators, UntypedFormGroup } from '@angular/forms';
 
 import { SearchService } from '../../services/search/search.service';
 
-import { Subscription, EMPTY } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'search-bar',
@@ -17,8 +17,6 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   public typeSearchList: string[] = [];
   public formSearch: UntypedFormGroup;
-  public loading: boolean = false;
-  public countSearches: number = 0;
 
   private _subscriptions = new Subscription();
 
@@ -33,12 +31,10 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   getApisAvailable(): void {
-    this.loading = true;
     this._subscriptions.add(
       this._searchService.getAllResources().subscribe({
-        next: (data: any) => {
+        next: (data: string[]) => {
           this.typeSearchList = data;
-          this.loading = false;
         },
       })
     );

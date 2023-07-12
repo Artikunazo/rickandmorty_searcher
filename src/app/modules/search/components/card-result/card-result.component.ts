@@ -6,13 +6,12 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
-import { IEpisode } from '@modules/search/models/episode.model';
+import { Episode } from '@modules/search/models/episode.model';
 import { SearchService } from '@modules/search/services/search/search.service';
 import { Observable, Subscription } from 'rxjs';
-import { ICharacter } from '@modules/search/models/character.model';
+import { Character } from '@modules/search/models/character.model';
 import { delay } from 'rxjs/operators';
-import { ILocation } from '@modules/search/models/location.model';
+import { Location } from '@modules/search/models/location.model';
 
 @Component({
   selector: 'card-result',
@@ -24,9 +23,9 @@ export class CardResultComponent implements OnInit, OnDestroy {
   @Input() result!: any;
   @Output() compareEvent = new EventEmitter();
 
-  public episode!: IEpisode;
+  public episode!: Episode;
   public moreInfo: boolean = false;
-  public characters: ICharacter[] = [];
+  public characters: Character[] = [];
   public charactersToCompare: number[] = [];
   public loading: boolean = false;
 
@@ -34,7 +33,6 @@ export class CardResultComponent implements OnInit, OnDestroy {
 
   constructor(
     private _searchService: SearchService,
-    private _formBuilder: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +48,7 @@ export class CardResultComponent implements OnInit, OnDestroy {
     );
     this._subscriptions.add(
       this.getDataFromApi(episode).subscribe((episodeData) => {
-        this.episode = episodeData as IEpisode;
+        this.episode = episodeData as Episode;
         this.loading = false;
       })
     );
@@ -62,20 +60,20 @@ export class CardResultComponent implements OnInit, OnDestroy {
 
     this.result.characters.forEach((character: string) => {
       this._subscriptions.add(
-        this.getDataFromApi(character).subscribe((characterData) => {
-          this.characters.push(characterData as ICharacter);
+        this.getDataFromApi(character).subscribe((characterData: Character | Episode | Location) => {
+          this.characters.push(characterData as Character);
           this.loading = false;
         })
       );
     });
   }
 
-  getDataFromApi(url: string): Observable<ICharacter | IEpisode | ILocation> {
+  getDataFromApi(url: string): Observable<Character | Episode | Location> {
     this.loading = true;
     return this._searchService.getDataFromApi(url).pipe(delay(500));
   }
 
-  addCompare(character: ICharacter) {
+  addCompare(character: Character) {
     if (this._searchService.characterIdsToCompare.length === 3) {
       this._searchService.charactersToCompare$.next(
         this._searchService.characterIdsToCompare

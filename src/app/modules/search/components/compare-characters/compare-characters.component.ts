@@ -1,15 +1,12 @@
 import {
   Component,
   Input,
-  OnInit,
   OnChanges,
-  OnDestroy,
   SimpleChanges,
 } from '@angular/core';
-import { ICharacter } from '@modules/search/models/character.model';
-import { IEpisode } from '@modules/search/models/episode.model';
+import { Character } from '@modules/search/models/character.model';
+import { Episode } from '@modules/search/models/episode.model';
 import { SearchService } from '@modules/search/services/search/search.service';
-import { pipe } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Component({
@@ -18,11 +15,11 @@ import { delay } from 'rxjs/operators';
   styleUrls: ['./compare-characters.component.css'],
 })
 export class CompareCharactersComponent
-  implements OnInit, OnDestroy, OnChanges
+  implements OnChanges
 {
-  @Input() characters: ICharacter[] = [];
+  @Input() characters: Character[] = [];
 
-  public episodes: IEpisode[] = [];
+  public episodes: Episode[] = [];
   public loading: boolean = false;
 
   constructor(private _searchService: SearchService) {}
@@ -32,11 +29,11 @@ export class CompareCharactersComponent
       this.getSharedEpisodes(this.characters);
     }
   }
-  getSharedEpisodes(characters: ICharacter[]): void {
+  getSharedEpisodes(characters: Character[]): void {
     const episodes: string[] = [];
 
     const characterEpisodesSorted = characters
-      .map((character: ICharacter) => {
+      .map((character: Character) => {
         return character.episode;
       })
       .sort(function (a, b) {
@@ -77,15 +74,11 @@ export class CompareCharactersComponent
       this._searchService.getDataFromApi(episode)
       .pipe(
         delay(500)
-      ).subscribe((episodeData) => {
+      ).subscribe((episodeData: Episode) => {
         this.episodes.push(episodeData);
         this.loading = false;
       });
     });
 
   }
-
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {}
 }
