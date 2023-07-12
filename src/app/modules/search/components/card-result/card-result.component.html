@@ -23,14 +23,18 @@
     <mat-card-header>
       <mat-card-title>{{ result?.name }}</mat-card-title>
     </mat-card-header>
-    <img mat-card-image [src]="result?.image" [alt]="'Photo of ' + result?.name">
+    <img
+      mat-card-image
+      [src]="result?.image"
+      [alt]="'Photo of ' + result?.name"
+    />
     <mat-card-content>
       <p>Gender: {{ result?.gender }}</p>
       <p>Location: {{ result?.location?.name }}</p>
       <p *ngIf="episode">Episode: {{ episode.name }}</p>
     </mat-card-content>
     <mat-card-actions align="end">
-      <button mat-button (click)="addCompare(result?.id)">Compare</button>
+      <button mat-raised-button (click)="addCompare(result)">Compare</button>
     </mat-card-actions>
   </mat-card>
 </ng-template>
@@ -41,10 +45,10 @@
       <mat-card-title>{{ result?.name }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>Tipo: {{ result?.type }}</p>
-      <p>Dimensión: {{ result?.dimension }}</p>
-      <p>Residentes: {{ result?.residents.length }}</p>
-      <p>Fecha de creación: {{ result?.created }}</p>
+      <p>Type: {{ result?.type }}</p>
+      <p>Dimension: {{ result?.dimension }}</p>
+      <p>Residents: {{ result?.residents.length }}</p>
+      <p>Date created: {{ result?.created }}</p>
     </mat-card-content>
   </mat-card>
 </ng-template>
@@ -55,43 +59,39 @@
       <mat-card-title>{{ result?.name }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>Fecha de emisión: {{ result?.air_date }}</p>
-      <p>Código de episodio: {{ result?.episode }}</p>
-
-      <div class="characters" *ngIf="moreInfo">
-        <p>Personajes en este episodio:</p>
-        <div *ngIf="loading">
-          <spinner></spinner>
-        </div>
-        <ul>
-          <li *ngFor="let character of characters">
-            <div class="row">
-              <div class="col-6">
-                <p>
-                  {{ character.name }}
-                </p>
-              </div>
-              <div class="col-6">
-                <img
-                  [src]="character.image"
-                  class="img-fluid"
-                  [alt]="character.name + ' photo'"
-                />
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
+      <p>Luve emition: {{ result?.air_date }}</p>
+      <p>Episode code: {{ result?.episode }}</p>
 
       <button
+        mat-raised-button
         type="button"
         class="btn btn-primary pull-right"
         (click)="toggleMoreInfo()"
       >
-        <span *ngIf="!moreInfo">+ </span>
-        <span *ngIf="moreInfo">- </span>
+        <span *ngIf="!moreInfo">More </span>
+        <span *ngIf="moreInfo">Less </span>
         Info
       </button>
+
+      <div class="characters" *ngIf="moreInfo">
+        <p>Characters in this episode:</p>
+        <div *ngIf="loading">
+          <spinner></spinner>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-12" *ngFor="let character of characters">
+            <img
+              [src]="character.image"
+              class="img-fluid"
+              [alt]="character.name + ' photo'"
+            />
+            <p>
+              {{ character.name }}
+            </p>
+          </div>
+        </div>
+      </div>
     </mat-card-content>
   </mat-card>
 </ng-template>

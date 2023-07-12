@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ConnectorService } from '@core/services/connector/connector.service';
 import { environment } from '@environments/environment';
 import { TResultApi } from '@modules/search/models/result-api.type';
-import { EMPTY, Observable, Subject, of } from 'rxjs';
+import { EMPTY, Observable, Subject, of, ReplaySubject } from 'rxjs';
 import { delay, expand, map, scan, take } from 'rxjs/operators';
 import { ApiRickAndMortyResponse } from '@modules/search/models/api.model';
 import { IEpisode } from '@modules/search/models/episode.model';
@@ -19,6 +19,8 @@ enum typeSearch {
 })
 export class SearchService {
   public results$ = new Subject<any>();
+  public characterIdsToCompare: ICharacter[] = [];
+  public charactersToCompare$ = new ReplaySubject<ICharacter[]>;
 
   private apiUrl = environment.apiUrl;
   private finalResults: Array<TResultApi> = []; // @Todo: Add type

@@ -35,8 +35,7 @@ export class CardResultComponent implements OnInit, OnDestroy {
   constructor(
     private _searchService: SearchService,
     private _formBuilder: UntypedFormBuilder
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     // Read episodes of a character
@@ -59,17 +58,16 @@ export class CardResultComponent implements OnInit, OnDestroy {
 
   toggleMoreInfo(): void {
     this.moreInfo = !this.moreInfo;
-    if (this.moreInfo) {
-      this.result.characters.forEach((character: string) => {
-        this._subscriptions.add(
-          this.getDataFromApi(character)
-            .subscribe((characterData) => {
-              this.characters.push(characterData as ICharacter);
-              this.loading = false;
-            })
-        );
-      });
-    }
+    if (!this.moreInfo) return;
+
+    this.result.characters.forEach((character: string) => {
+      this._subscriptions.add(
+        this.getDataFromApi(character).subscribe((characterData) => {
+          this.characters.push(characterData as ICharacter);
+          this.loading = false;
+        })
+      );
+    });
   }
 
   getDataFromApi(url: string): Observable<ICharacter | IEpisode | ILocation> {
@@ -77,12 +75,15 @@ export class CardResultComponent implements OnInit, OnDestroy {
     return this._searchService.getDataFromApi(url).pipe(delay(500));
   }
 
-  addCompare(idCharacter: number) {
-    if(this.charactersToCompare.length === 3) {
+  addCompare(character: ICharacter) {
+    if (this._searchService.characterIdsToCompare.length === 3) {
+      this._searchService.charactersToCompare$.next(
+        this._searchService.characterIdsToCompare
+      );
       return;
     }
-    
-    this.charactersToCompare.push(idCharacter);
+
+    this._searchService.characterIdsToCompare.push(character);
   }
 
   ngOnDestroy(): void {

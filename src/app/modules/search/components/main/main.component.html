@@ -12,6 +12,31 @@
   </div>
 
   <ng-container *ngIf="results$ | async as results; else emptyResults">
+    <div
+      *ngIf="typeSearch === 'characters' && charactersToCompare.length > 1"
+      class="compare__characters"
+    >
+      <div class="row">
+        <div class="col-12">
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            (click)="toggleCompareContainer()"
+          >
+            Compare
+            <mat-icon>navigate_next</mat-icon>
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+        </div>
+
+        <div class="col-12" *ngIf="showCompare">
+          <compare-characters
+            [characters]="charactersToCompare"
+          ></compare-characters>
+        </div>
+      </div>
+    </div>
 
     <div
       class="row results-container"
@@ -20,8 +45,6 @@
       [infiniteScrollThrottle]="500"
       (scrolled)="onScroll()"
     >
-      <!-- {{ results | json }} -->
-
       <ng-container *ngFor="let result of results">
         <div class="xs-12 sm-6 md-4 lg-3">
           <card-result
@@ -42,8 +65,8 @@
           <i class="fa fa-info-circle"></i>
         </strong>
         <span>
-          Para buscar por personaje, ubicación o episodio, seleccione el tipo de
-          búsqueda y escriba el nombre del mismo en el campo contiguo.
+          To search by character, location or episode, select the type of search
+          and type the name of the character in the adjacent field.
         </span>
       </div>
     </div>
@@ -56,10 +79,10 @@
           <i class="fa fa-info-circle"></i>
         </strong>
         <span>
-          Para comparar personajes, seleccione dos o más personajes de la lista
-          (máximo 3) y haga click en el botón
-          <mat-icon fontIcon="arrow-right"></mat-icon>
-          <mat-icon fontIcon="arrow-left"></mat-icon>
+          To compare characters, select two or more characters from the list
+          (maximum 3) and click on the button
+          <mat-icon>navigate_next</mat-icon>
+          <mat-icon>chevron_left</mat-icon>
           .
         </span>
       </div>

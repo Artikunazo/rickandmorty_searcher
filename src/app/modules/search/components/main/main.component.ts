@@ -27,39 +27,12 @@ export class MainComponent implements OnInit, OnDestroy {
     this.showCompare = !this.showCompare;
   }
 
-  getCompareEvent(event: any): void {
-    if (
-      event.value &&
-      this.charactersToCompare.length > 1 &&
-      this.charactersToCompare.length === 3
-    ) {
-      alert(
-        'Sólo se pueden comparar hasta 3 personajes.\nEl personaje seleccionado no será comparado.'
-      );
-      return;
-    }
-
-    if (event.value) {
-      this.charactersToCompare.push(event.character);
-      return;
-    }
-
-    if (!event.value) {
-      const index = this.charactersToCompare.findIndex((character: any) => {
-        return character['name'] === event.character['name'];
-      });
-
-      if (index !== -1) {
-        this.charactersToCompare.splice(index, 1);
-      }
-
-      return;
-    }
-
-    if (this.charactersToCompare.length < 2) {
-      this.toggleCompareContainer();
-      return;
-    }
+  getCompareEvent(): void {
+    this._searchService.charactersToCompare$.subscribe({
+      next: (characters: ICharacter[]) => {
+        characters.map(character => this.charactersToCompare.push(character));
+      },
+    });
   }
 
   onScroll() {
@@ -67,7 +40,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.results$.subscribe();
+    this.getCompareEvent();
   }
 
   ngOnDestroy(): void {
