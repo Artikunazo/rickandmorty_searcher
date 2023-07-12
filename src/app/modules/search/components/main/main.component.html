@@ -89,3 +89,12 @@
     </div>
   </div>
 </ng-template>
+
+<!-- Non results -->
+
+<!-- Go to top button -->
+<div class="goToTop" *ngIf="showGoToTop">
+  <button mat-fab type="button" color="primary" (click)="goToTop()">
+    <mat-icon>arrow_upward</mat-icon>
+  </button>
+</div>

@@ -13,7 +13,8 @@ export class MainComponent implements OnInit, OnDestroy {
   public results$ = this._searchService.results$;
   public typeSearch: string = '';
   public charactersToCompare: ICharacter[] = [];
-  public showCompare: boolean = false;
+  public showCompare = false;
+  public showGoToTop = false;
 
   private _subscriptions = new Subscription();
 
@@ -37,6 +38,17 @@ export class MainComponent implements OnInit, OnDestroy {
 
   onScroll() {
     this._searchService.searchFromScroll();
+    // @Todo: transform in directive
+    if(window.scrollY >= (window.innerHeight / 3)) {
+      this.showGoToTop = true;
+    }
+  }
+
+  goToTop() {
+    window.scrollTo(0, 0);
+    if(window.scrollY === 0) {
+      this.showGoToTop = false;
+    }
   }
 
   ngOnInit(): void {
