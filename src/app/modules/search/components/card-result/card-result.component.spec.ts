@@ -22,4 +22,8 @@ describe('CardResultComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('searchEpisodes', () => {
+    
+  });
 });
