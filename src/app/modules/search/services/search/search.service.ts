@@ -18,7 +18,7 @@ enum typeSearch {
   providedIn: 'root',
 })
 export class SearchService {
-  public results$ = new Subject<any>();
+  public results$ = new Subject<ApiRickAndMortyResultsResponse[]>();
   public characterIdsToCompare: Character[] = [];
   public charactersToCompare$ = new ReplaySubject<Character[]>;
 

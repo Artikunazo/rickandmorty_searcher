@@ -12,6 +12,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Character } from '@modules/search/models/character.model';
 import { delay } from 'rxjs/operators';
 import { Location } from '@modules/search/models/location.model';
+import { ApiRickAndMortyResponse } from '@modules/search/models/api.model';
 
 @Component({
   selector: 'card-result',
@@ -24,10 +25,10 @@ export class CardResultComponent implements OnInit, OnDestroy {
   @Output() compareEvent = new EventEmitter();
 
   public episode!: Episode;
-  public moreInfo: boolean = false;
+  public moreInfo = false;
   public characters: Character[] = [];
   public charactersToCompare: number[] = [];
-  public loading: boolean = false;
+  public loading = false;
 
   private _subscriptions = new Subscription();
 
